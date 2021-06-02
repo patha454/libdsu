@@ -16,4 +16,8 @@ project(
     LANGUAGES C
 )
 
-add_executable(dsu main.c)
+add_compile_options(-W -Wall -Wextra -Wpedantic -Werror)
+
+add_executable(dsu server.c dsuSocket.c)
+set_property(TARGET dsu PROPERTY C_STANDARD 11)
+target_include_directories(dsu PRIVATE ${PROJECT_SOURCE_DIR})
