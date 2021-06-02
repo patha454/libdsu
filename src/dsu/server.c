@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "dsuStatus.h"
-#include "dsuSocket.h"
+#include "dsu/status.h"
+#include "dsu/socket.h"
 
 int main(void)
 {

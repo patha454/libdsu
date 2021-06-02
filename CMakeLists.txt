@@ -18,6 +18,10 @@ project(
 
 add_compile_options(-W -Wall -Wextra -Wpedantic -Werror)
 
-add_executable(dsu server.c dsuSocket.c)
+set(DSU_DEBUG_SRC_PATH ${PROJECT_SOURCE_DIR}/src/dsu)
+add_executable(dsu
+    ${DSU_DEBUG_SRC_PATH}/server.c
+    ${DSU_DEBUG_SRC_PATH}/socket.c
+)
 set_property(TARGET dsu PROPERTY C_STANDARD 11)
-target_include_directories(dsu PRIVATE ${PROJECT_SOURCE_DIR})
+target_include_directories(dsu PRIVATE ${PROJECT_SOURCE_DIR}/include)

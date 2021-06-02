@@ -1,11 +1,21 @@
+/**
+ * \file dsuSocket.c
+ * \brief `dsuSocket.c` provides implements UNIX domain socket communication
+ * with a DSU service.
+ * 
+ * \see `dsuSocket.h` for detailed documentation comments.
+ * 
+ * \author H Paterson <harley.paterson@postgrad.otago.ac.nz>.
+ * \copyright BSL-1.0.
+ */
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <sys/socket.h>
 #include <sys/un.h>
 #include <unistd.h>
-#include "dsuSocket.h"
-#include "dsuStatus.h"
+#include "dsu/socket.h"
+#include "dsu/status.h"
 
 /**
  * \brief Maximum length used for socket path names.
@@ -20,14 +30,6 @@
  */
 #define DSU_REQUEST_BACKLOG 4
 
-/**
- * Get the name (file path) of the Unix domain socket used by the host
- * process.
- *
- * \param name Memory to copy the socket name into.
- * \param length Length of `name`.
- * \returns `DSU_SUCCESS` or an error on failure.
- */
 static DsuStatus dsuGetServerSocketName(char* name, size_t length) {
     char* homeDir = getenv("HOME");
     if (homeDir == NULL) {
@@ -37,13 +39,6 @@ static DsuStatus dsuGetServerSocketName(char* name, size_t length) {
     return DSU_SUCCESS;
 }
 
-/**
- * \brief Set up and open the socket the DSU server will use to listen for
- * incoming patch requests.
- *
- * \param dsuSocket Pointer to memory to store the new socket's details in.
- * \returns `DSU_SUCCESS` or an error on failure.
- */
 DsuStatus dsuInitServerSocket(struct DsuServerSocket* dsuSocket)
 {
     DsuStatus status = DSU_SUCCESS;

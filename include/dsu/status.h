@@ -1,6 +1,6 @@
 /**
- * \file dsuStatus.h
- * \brief `dsuStatus.h` defines the `DsuStatus` enum, and functions for
+ * \file status.h
+ * \brief `dsu/status.h` defines the `DsuStatus` enum, and functions for
  * manipulating status codes.
  *
  * \author H Paterson <harley.paterson@postgrad.otago.ac.nz>.
