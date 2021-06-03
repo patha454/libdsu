@@ -7,10 +7,11 @@
  * \copyright BSL-1.0.
  */
 
-#include "dsu/status.h"
-
 #ifndef DSU_SOCKET_H_
 #define DSU_SOCKET_H_
+
+#include "dsu/status.h"
+#include <stdbool.h>
 
 struct DsuServerSocket
 {
@@ -56,5 +57,16 @@ dsuInitClientSocket(struct DsuClientSocket* dsuSocket, char* socketPath);
  */
 DsuStatus
 dsuDestroyServerSocket(struct DsuServerSocket* dsuSocket);
+
+/**
+ * \brief Check if a DSU server has incoming connections.
+ *
+ * DSU server connections are used to send patch requests.
+ *
+ * \param dsuSocket The socket to test.
+ * \return `true` if the socket has pending connections.
+ */
+bool
+dsuServerConnectionPending(struct DsuServerSocket* dsuSocket);
 
 #endif

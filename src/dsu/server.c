@@ -14,6 +14,9 @@ main(void)
   if (dsuInitClientSocket(&client, socket.filePath) != DSU_SUCCESS) {
     fprintf(stderr, "Error opening client socket");
   }
+  if (dsuServerConnectionPending(&socket)) {
+    fprintf(stdout, "Connection pending");
+  }
   if (dsuDestroyServerSocket(&socket) != DSU_SUCCESS) {
     fprintf(stderr, "Error closing server socket");
   }

@@ -10,7 +10,10 @@
  */
 
 #include "dsu/socket.h"
+#include "dsu/packet.h"
 #include "dsu/status.h"
+#include <poll.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/socket.h>
@@ -110,4 +113,20 @@ dsuDestroyServerSocket(struct DsuServerSocket* dsuSocket)
     return DSU_ERROR_CLOSE_SOCKET;
   }
   return DSU_SUCCESS;
+}
+
+bool
+dsuServerConnectionPending(struct DsuServerSocket* dsuSocket)
+{
+  struct pollfd pollfd;
+  pollfd.fd = dsuSocket->fileDescriptor;
+  pollfd.events = POLLIN;
+  int pollStatus = poll(&pollfd, 1, 0);
+  if (pollStatus == -1) {
+    return false;
+  }
+  if (pollStatus == 0) {
+    return false;
+  }
+  return true;
 }
