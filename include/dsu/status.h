@@ -16,8 +16,14 @@ typedef enum DsuStatus
     /** \brief Action successful. No error to report. */
     DSU_SUCCESS,
 
-    /** \brief Error creating, opening, or destroying sockets. */
-    DSU_ERROR_SOCKET,
+    /** \brief Error creating, or opening, sockets. */
+    DSU_ERROR_OPEN_SOCKET,
+
+    /** \brief Error connecting a socket. */
+    DSU_ERROR_CLOSE_SOCKET,
+
+    /** \brief Error connecting a socket. */
+    DSU_ERROR_CONNECT_SOCKET,
 
     /** \brief Error allocating memory. */
     DSU_ERROR_MEMORY,

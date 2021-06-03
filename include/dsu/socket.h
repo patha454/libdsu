@@ -18,15 +18,32 @@ struct DsuServerSocket
     char* filePath;
 };
 
+struct DsuClientSocket
+{
+    int fileDescriptor;
+    char* filePath;
+};
+
 /**
- * Get the name (file path) of the Unix domain socket used by the host
- * process.
+ * \brief Create and open a new Unix domain server socket to listen for DSU
+ * requests.
  *
- * \param name Memory to copy the socket name into.
- * \param length Length of `name`.
+ * \param dsuSocket Memory to return the new socket in.
  * \returns `DSU_SUCCESS` or an error on failure.
  */
 DsuStatus dsuInitServerSocket(struct DsuServerSocket* dsuSocket);
+
+/**
+ * \brief Create and open a new Unix domain client socket to the specified
+ * address/path.
+ * 
+ * `dsuInitClientSocket` will block for a connection.
+ *
+ * \param dsuSocket Memory to return the new socket in.
+ * \param socketPath Path to the Unix domain socket to connect to.
+ * \returns `DSU_SUCCESS` or an error on failure.
+ */
+DsuStatus dsuInitClientSocket(struct DsuClientSocket* dsuSocket, char* socketPath);
 
 /**
  * \brief Set up and open the socket the DSU server will use to listen for
