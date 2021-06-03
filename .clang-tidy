@@ -1,5 +1,8 @@
 ---
-Checks:          'clang-diagnostic-*,clang-analyzer-*,*-llvmlibc-*'
+Checks:          'clang-diagnostic-*,
+                  clang-analyzer-*,
+                  *-llvmlibc-*,
+                  -clang-analyzer-security.insecureAPI.DeprecatedOrUnsafeBufferHandling'
 WarningsAsErrors: '*'
 HeaderFilterRegex: ''
 AnalyzeTemporaryDtors: false
