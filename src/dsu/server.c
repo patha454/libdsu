@@ -7,7 +7,8 @@ int
 main(void)
 {
   struct DsuServerSocket socket;
-  struct DsuClientSocket client;
+  struct DsuSocket client;
+  struct DsuSocket server;
   if (dsuInitServerSocket(&socket) != DSU_SUCCESS) {
     fprintf(stderr, "Error creating server socket");
   }
@@ -16,6 +17,9 @@ main(void)
   }
   if (dsuServerConnectionPending(&socket)) {
     fprintf(stdout, "Connection pending");
+  }
+  if (dsuServerAcceptConnection(&socket, &server) != DSU_SUCCESS) {
+    fprintf(stderr, "Failed to accept connection");
   }
   if (dsuDestroyServerSocket(&socket) != DSU_SUCCESS) {
     fprintf(stderr, "Error closing server socket");

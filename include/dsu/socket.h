@@ -13,16 +13,24 @@
 #include "dsu/status.h"
 #include <stdbool.h>
 
+/**
+ * \brief Maximum length used for socket path names.
+ *
+ * The length (108) bytes is not arbitrary. It is the maximum length allowed by
+ * the `struct sockaddr_un`.
+ */
+#define DSU_SOCKET_PATH_LEN 108
+
 struct DsuServerSocket
 {
   int fileDescriptor;
-  char* filePath;
+  char filePath[DSU_SOCKET_PATH_LEN];
 };
 
-struct DsuClientSocket
+struct DsuSocket
 {
   int fileDescriptor;
-  char* filePath;
+  char filePath[DSU_SOCKET_PATH_LEN];
 };
 
 /**
@@ -46,7 +54,7 @@ dsuInitServerSocket(struct DsuServerSocket* dsuSocket);
  * \returns `DSU_SUCCESS` or an error on failure.
  */
 DsuStatus
-dsuInitClientSocket(struct DsuClientSocket* dsuSocket, char* socketPath);
+dsuInitClientSocket(struct DsuSocket* dsuSocket, char* socketPath);
 
 /**
  * \brief Set up and open the socket the DSU server will use to listen for
@@ -64,9 +72,20 @@ dsuDestroyServerSocket(struct DsuServerSocket* dsuSocket);
  * DSU server connections are used to send patch requests.
  *
  * \param dsuSocket The socket to test.
- * \return `true` if the socket has pending connections.
+ * \returns `true` if the socket has pending connections.
  */
 bool
 dsuServerConnectionPending(struct DsuServerSocket* dsuSocket);
 
+/**
+ * \brief Accept an incoming connection and create a new socket
+ * to communicate with the remote client.
+ *
+ * \param serverSocket The server socket to accept from.
+ * \param clientSocket Memory to store details for the new socket.
+ * \returns `DSU_SUCCESS` or an error on failure.
+ */
+DsuStatus
+dsuServerAcceptConnection(struct DsuServerSocket* serverSocket,
+                          struct DsuSocket* clientSocket);
 #endif

@@ -21,14 +21,6 @@
 #include <unistd.h>
 
 /**
- * \brief Maximum length used for socket path names.
- *
- * The length (108) bytes is not arbitrary. It is the maximum length allowed by
- * the `struct sockaddr_un`.
- */
-#define DSU_SOCKET_PATH_LEN 108
-
-/**
  * \brief Maximum number of pending DSU requests to support.
  */
 #define DSU_REQUEST_BACKLOG 4
@@ -60,10 +52,6 @@ dsuInitServerSocket(struct DsuServerSocket* dsuSocket)
   if (dsuSocket->fileDescriptor == -1) {
     return DSU_ERROR_OPEN_SOCKET;
   }
-  dsuSocket->filePath = malloc(DSU_SOCKET_PATH_LEN);
-  if (dsuSocket->filePath == NULL) {
-    return DSU_ERROR_MEMORY;
-  }
   status = dsuGetServerSocketName(dsuSocket->filePath, DSU_SOCKET_PATH_LEN);
   if (status != DSU_SUCCESS) {
     return status;
@@ -83,7 +71,7 @@ dsuInitServerSocket(struct DsuServerSocket* dsuSocket)
 }
 
 DsuStatus
-dsuInitClientSocket(struct DsuClientSocket* dsuSocket, char* socketPath)
+dsuInitClientSocket(struct DsuSocket* dsuSocket, char* socketPath)
 {
   dsuSocket->fileDescriptor = socket(AF_UNIX, SOCK_STREAM, 0);
   if (dsuSocket->fileDescriptor == -1) {
@@ -129,4 +117,19 @@ dsuServerConnectionPending(struct DsuServerSocket* dsuSocket)
     return false;
   }
   return true;
+}
+
+DsuStatus
+dsuServerAcceptConnection(struct DsuServerSocket* serverSocket,
+                          struct DsuSocket* clientSocket)
+{
+  struct sockaddr_un address;
+  socklen_t addressLength = sizeof address;
+  clientSocket->fileDescriptor = accept(
+    serverSocket->fileDescriptor, (struct sockaddr*)&address, &addressLength);
+  if (clientSocket->fileDescriptor == -1) {
+    return DSU_ERROR_OPEN_SOCKET;
+  }
+  strncpy(clientSocket->filePath, address.sun_path, DSU_SOCKET_PATH_LEN);
+  return DSU_SUCCESS;
 }
