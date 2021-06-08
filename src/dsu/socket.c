@@ -144,7 +144,8 @@ dsuSocketReadPacket(struct DsuSocket* socket, uint8_t* buffer, size_t bufferLen)
   size_t bytesRead = 0;
   bytesRead =
     read(socket->fileDescriptor, buffer, sizeof(struct DsuPacketHeader));
-  if (bytesRead != ((struct DsuPacketHeader*)buffer)->length) {
+  if (bytesRead != sizeof(struct DsuPacketHeader)) {
+    printf("first read\n");
     return DSU_BAD_READ;
   }
   size_t bytesRemaining =
@@ -156,6 +157,7 @@ dsuSocketReadPacket(struct DsuSocket* socket, uint8_t* buffer, size_t bufferLen)
                    buffer + sizeof(struct DsuPacketHeader),
                    bytesRemaining);
   if (bytesRead != bytesRemaining) {
+    printf("second read\n");
     return DSU_BAD_READ;
   }
   return DSU_SUCCESS;
