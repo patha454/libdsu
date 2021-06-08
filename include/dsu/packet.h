@@ -30,7 +30,7 @@ typedef struct DsuPacketHeader
   DsuPacketType type;
 
   /** \brief The total length of the packet, including the header. */
-  size_t packetLength;
+  size_t length;
 } DsuPacketHeader;
 
 /**

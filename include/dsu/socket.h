@@ -10,7 +10,9 @@
 #ifndef DSU_SOCKET_H_
 #define DSU_SOCKET_H_
 
+#include "dsu/packet.h"
 #include "dsu/status.h"
+#include "stdint.h"
 #include <stdbool.h>
 
 /**
@@ -88,4 +90,27 @@ dsuServerConnectionPending(struct DsuServerSocket* dsuSocket);
 DsuStatus
 dsuServerAcceptConnection(struct DsuServerSocket* serverSocket,
                           struct DsuSocket* clientSocket);
+
+/**
+ * Write a DSU packet to a socket.
+ *
+ * \param socket The socket to write to.
+ * \param packet The packet to send over the socket.
+ * \returns `DSU_SUCCESS` or an error on failure.
+ */
+DsuStatus
+dsuSocketWritePacket(struct DsuSocket* socket, struct DsuPacketHeader* packet);
+
+/**
+ * Read a DSU packet from the socket.
+ *
+ * \param socket The socket to read from,
+ * \param buffer Memory to store a read packet into.
+ * \param bufferLen Length of the `buffer`.
+ * \returns `DSU_SUCCESS` or an error on failure.
+ */
+DsuStatus
+dsuSocketReadPacket(struct DsuSocket* socket,
+                    uint8_t* buffer,
+                    size_t bufferLen);
 #endif

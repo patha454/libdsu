@@ -28,6 +28,15 @@ typedef enum DsuStatus
   /** \brief Error allocating memory. */
   DSU_ERROR_MEMORY,
 
+  /** \brief Error writing to memory, a file, or socket. */
+  DSU_BAD_WRITE,
+
+  /** \brief Error reading from memory, a file, or socket. */
+  DSU_BAD_READ,
+
+  /** \brief Write would cause a buffer overrun. */
+  DSU_BUFFER_OVERUN,
+
   /** \brief Unexpected or unrecoverable error. */
   DSU_PANIC
 } DsuStatus;
