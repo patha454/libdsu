@@ -16,12 +16,12 @@ project(
     LANGUAGES C
 )
 
-add_compile_options(-W -Wall -Wextra -Wpedantic -Werror)
+add_subdirectory(libdsu)
 
-set(DSU_DEBUG_SRC_PATH ${PROJECT_SOURCE_DIR}/src/dsu)
-add_executable(dsu
-    ${DSU_DEBUG_SRC_PATH}/server.c
-    ${DSU_DEBUG_SRC_PATH}/socket.c
-)
-set_property(TARGET dsu PROPERTY C_STANDARD 11)
-target_include_directories(dsu PRIVATE ${PROJECT_SOURCE_DIR}/include)
+
+#set(DSU_TEST_SERVER_SRC_DIR ${PROJECT_SOURCE_DIR}/src/test-server)
+#add_executable(test-server
+#    ${DSU_TEST_SERVER_SRC_DIR}/test-server.c
+#)
+#set_property(TARGET test-server PROPERTY C_STANDARD 11)
+#target_link_libraries(test-server PRIVATE dsu)
