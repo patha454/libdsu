@@ -57,3 +57,15 @@ target_link_libraries(dsu-test-server PRIVATE dsu)
 install(TARGETS dsu-test-server
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
 )
+
+set(DSU_CLIENT_SRC_DIR ${PROJECT_SOURCE_DIR}/client)
+add_executable(dsu-client
+    ${DSU_CLIENT_SRC_DIR}/client.c
+)
+set_target_properties(dsu-client PROPERTIES C_STANDARD 11 OUTPUT_NAME "dsu")
+target_compile_options(dsu-client PRIVATE -W -Wall -Wextra -Wpedantic -Werror)
+target_link_libraries(dsu-client PRIVATE dsu)
+
+install(TARGETS dsu-client
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
