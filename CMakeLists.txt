@@ -5,7 +5,9 @@ set(DSU_H_MAJOR_VERSION 0)
 set(DSU_H_MINOR_VERSION 0)
 set(DSU_H_PATCH_VERSION 0)
 
-set(DSU_H_DESCRIPTION "Dyanmic software updating solution contained within a library.")
+set(DSU_H_DESCRIPTION
+    "Dyanmic software updating solution contained within a library."
+)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
