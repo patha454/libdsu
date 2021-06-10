@@ -120,4 +120,5 @@ dsuSocketWritePacket(struct DsuSocket* socket, union DsuPacket* packet);
  */
 DsuStatus
 dsuSocketReadPacket(struct DsuSocket* socket, union DsuPacket* packet);
+
 #endif
