@@ -16,10 +16,10 @@
 /**
  * \brief Common header shared by all DSU packets.
  */
-typedef struct DsuPacketHeader
+struct DsuPacketHeader
 {
   /** \brief The type of packet attached to the header. */
-  DsuPacketType type;
+  enum DsuPacketType type;
 
   /**
    *  \brief The length of the packet following the header.
@@ -30,6 +30,6 @@ typedef struct DsuPacketHeader
    * particular packet.
    * */
   size_t length;
-} DsuPacketHeader;
+};
 
 #endif

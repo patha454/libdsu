@@ -10,8 +10,8 @@
  */
 
 #include "dsu/socket.h"
-#include "dsu/packet.h"
 #include "dsu/status.h"
+#include "packet/packet.h"
 #include <poll.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -148,39 +148,29 @@ dsuServerAcceptConnection(struct DsuServerSocket* serverSocket,
 }
 
 DsuStatus
-dsuSocketReadPacket(struct DsuSocket* socket, uint8_t* buffer, size_t bufferLen)
+dsuSocketReadPacket(struct DsuSocket* socket, union DsuPacket* packet)
 {
-  if (bufferLen < sizeof(struct DsuPacketHeader)) {
-    return DSU_BUFFER_OVERUN;
-  }
   size_t bytesRead = 0;
-  bytesRead =
-    read(socket->fileDescriptor, buffer, sizeof(struct DsuPacketHeader));
+  bytesRead = read(socket->fileDescriptor, packet, sizeof(packet->header));
   if (bytesRead != sizeof(struct DsuPacketHeader)) {
-    printf("first read\n");
     return DSU_BAD_READ;
   }
-  size_t bytesRemaining =
-    ((struct DsuPacketHeader*)buffer)->length - sizeof(struct DsuPacketHeader);
-  if (bufferLen < bytesRemaining + bytesRead) {
-    return DSU_BUFFER_OVERUN;
-  }
+  size_t bytesRemaining = packet->header.length - sizeof(packet->header);
   bytesRead = read(socket->fileDescriptor,
-                   buffer + sizeof(struct DsuPacketHeader),
+                   ((uint8_t*)packet) + sizeof(struct DsuPacketHeader),
                    bytesRemaining);
   if (bytesRead != bytesRemaining) {
-    printf("second read\n");
     return DSU_BAD_READ;
   }
   return DSU_SUCCESS;
 }
 
 DsuStatus
-dsuSocketWritePacket(struct DsuSocket* socket, struct DsuPacketHeader* packet)
+dsuSocketWritePacket(struct DsuSocket* socket, union DsuPacket* packet)
 {
   ssize_t written =
-    write(socket->fileDescriptor, (void*)packet, packet->length);
-  if (written == -1 || (size_t)written != packet->length) {
+    write(socket->fileDescriptor, (void*)packet, packet->header.length);
+  if (written == -1 || (size_t)written != packet->header.length) {
     return DSU_BAD_WRITE;
   }
   return DSU_SUCCESS;

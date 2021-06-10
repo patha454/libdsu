@@ -8,7 +8,6 @@
  */
 
 #include "dsu/packet.h"
-#include "dsu/socket.h"
 #include "dsu/status.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -18,6 +17,8 @@ int
 main(int argc, char** argv)
 {
   (void)(argc);
+  (void)(argv);
+  /*
   struct DsuSocket socket;
   struct DsuDummyPacket testPacket;
   strcpy(testPacket.payload, "dkeadbeed");
@@ -32,4 +33,5 @@ main(int argc, char** argv)
   }
   dsuDestroySocket(&socket);
   return EXIT_SUCCESS;
+  */
 }

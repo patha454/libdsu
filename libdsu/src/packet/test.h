@@ -19,13 +19,13 @@
 /**
  * \brief A dummy packet used for testing and debugging packet communication.
  */
-typedef struct DsuPacketTest
+struct DsuPacketTest
 {
   /** \brief Packet metadata. */
-  DsuPacketHeader header;
+  struct DsuPacketHeader header;
 
   /** \brief Generic payload data. */
   uint8_t payload[DSU_TEST_PACKET_PAYLOAD_LENGTH];
-} DsuPacketTest;
+};
 
 #endif

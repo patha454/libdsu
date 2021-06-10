@@ -1,5 +1,4 @@
-#include "dsu/packet.h"
-#include "dsu/socket.h"
+
 #include "dsu/status.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,6 +9,7 @@
 int
 main(void)
 {
+  /*
   struct DsuServerSocket socket;
   struct DsuSocket client;
   struct DsuDummyPacket newPacket;
@@ -31,4 +31,5 @@ main(void)
   dsuDestroyServerSocket(&socket);
   dsuDestroySocket(&client);
   return EXIT_SUCCESS;
+  */
 }

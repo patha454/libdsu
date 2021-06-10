@@ -10,8 +10,8 @@
 #ifndef DSU_SOCKET_H_
 #define DSU_SOCKET_H_
 
-#include "dsu/packet.h"
 #include "dsu/status.h"
+#include "packet/packet.h"
 #include "stdint.h"
 #include <stdbool.h>
 
@@ -108,7 +108,7 @@ dsuServerAcceptConnection(struct DsuServerSocket* serverSocket,
  * \returns `DSU_SUCCESS` or an error on failure.
  */
 DsuStatus
-dsuSocketWritePacket(struct DsuSocket* socket, struct DsuPacketHeader* packet);
+dsuSocketWritePacket(struct DsuSocket* socket, union DsuPacket* packet);
 
 /**
  * Read a DSU packet from the socket.
@@ -119,7 +119,5 @@ dsuSocketWritePacket(struct DsuSocket* socket, struct DsuPacketHeader* packet);
  * \returns `DSU_SUCCESS` or an error on failure.
  */
 DsuStatus
-dsuSocketReadPacket(struct DsuSocket* socket,
-                    uint8_t* buffer,
-                    size_t bufferLen);
+dsuSocketReadPacket(struct DsuSocket* socket, union DsuPacket* packet);
 #endif

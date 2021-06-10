@@ -1,7 +1,7 @@
 /**
  * \file types.h
  *
- * `types.h` defines a data type for representing DSU packet types.
+ * `types.h` defines a enum for representing DSU packet types.
  *
  * \author H Paterson <harley.paterson@postgrad.otago.ac.nz>
  * \copyright BSL-1.0.
@@ -10,7 +10,7 @@
 #ifndef PACKET_TYPES_H_
 #define PACKET_TYPES_H_
 
-typedef enum DsuPacketType
+enum DsuPacketType
 {
   /** A lone header without a body. */
   DSU_PACKET_HEADER,

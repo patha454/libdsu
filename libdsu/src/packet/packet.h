@@ -18,13 +18,13 @@
  *
  * The union is guaranteed to fit any possible DSU packet.
  */
-typedef union DsuPacket
+union DsuPacket
 {
   /** The header of the packet. */
-  DsuPacketHeader header;
+  struct DsuPacketHeader header;
 
   /** Access to the contents of a `dsuPacketTest` packet. */
-  DsuPacketTest dsuPacketTest;
-} DsuPacket;
+  struct DsuPacketTest dsuPacketTest;
+};
 
 #endif
