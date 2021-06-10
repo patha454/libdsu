@@ -104,6 +104,18 @@ dsuDestroyServerSocket(struct DsuServerSocket* dsuSocket)
   return DSU_SUCCESS;
 }
 
+DsuStatus
+dsuDestroySocket(struct DsuSocket* dsuSocket)
+{
+  if (shutdown(dsuSocket->fileDescriptor, SHUT_RD) == -1) {
+    return DSU_ERROR_CLOSE_SOCKET;
+  }
+  if (close(dsuSocket->fileDescriptor) == -1) {
+    return DSU_ERROR_CLOSE_SOCKET;
+  }
+  return DSU_SUCCESS;
+}
+
 bool
 dsuServerConnectionPending(struct DsuServerSocket* dsuSocket)
 {

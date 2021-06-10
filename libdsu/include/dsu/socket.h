@@ -59,6 +59,15 @@ DsuStatus
 dsuInitClientSocket(struct DsuSocket* dsuSocket, char* socketPath);
 
 /**
+ * \brief Close a DSU socket.
+ *
+ * \param dsuSocket Socket to close.
+ * \returns `DSU_SUCCESS` or an error on failure.
+ */
+DsuStatus
+dsuDestroySocket(struct DsuSocket* dsuSocket);
+
+/**
  * \brief Set up and open the socket the DSU server will use to listen for
  * incoming patch requests.
  *

@@ -10,42 +10,25 @@
 int
 main(void)
 {
-  printf("a");
   struct DsuServerSocket socket;
   struct DsuSocket client;
-  struct DsuSocket server;
-  struct DsuDummyPacket testPacket;
-  testPacket.header.length = sizeof(struct DsuDummyPacket);
-  testPacket.header.type = DSU_PACKET_DUMMY;
-  testPacket.payload[0] = 'a';
-  testPacket.payload[1] = 'b';
-  testPacket.payload[2] = 'b';
-  testPacket.payload[3] = '\0';
   struct DsuDummyPacket newPacket;
-  strcpy(newPacket.payload, "dkeadbeed");
   if (dsuInitServerSocket(&socket) != DSU_SUCCESS) {
-    fprintf(stderr, "Error creating server socket\n");
+    fprintf(stderr, "Error creating socket.\n");
   }
-  if (dsuInitClientSocket(&client, socket.filePath) != DSU_SUCCESS) {
-    fprintf(stderr, "Error opening client socket\n");
+  while (!dsuServerConnectionPending(&socket)) {
+    printf("DSU server: Waiting for connection...\n");
+    sleep(5);
   }
-  if (dsuServerConnectionPending(&socket)) {
-    fprintf(stdout, "Connection pending\n");
+  if (dsuServerAcceptConnection(&socket, &client) != DSU_SUCCESS) {
+    fprintf(stderr, "Error opening client connection\n");
   }
-  if (dsuServerAcceptConnection(&socket, &server) != DSU_SUCCESS) {
-    fprintf(stderr, "Failed to accept connection\n");
-  }
-  if (dsuSocketWritePacket(&client, (struct DsuPacketHeader*)&testPacket) !=
+  if (dsuSocketReadPacket(&client, (uint8_t*)&newPacket, sizeof(newPacket)) !=
       DSU_SUCCESS) {
-    fprintf(stderr, "Error sendin packet\n");
+    fprintf(stderr, "Error reading packet from client.\n");
   }
-  if (dsuSocketReadPacket(&server, (uint8_t*)&newPacket, sizeof(newPacket)) !=
-      DSU_SUCCESS) {
-    fprintf(stderr, "Error reading packet");
-  }
-  printf("Read back in %s\n", newPacket.payload);
-  if (dsuDestroyServerSocket(&socket) != DSU_SUCCESS) {
-    fprintf(stderr, "Error closing server socket\n");
-  }
+  printf("Received packet with data %s\n", newPacket.payload);
+  dsuDestroyServerSocket(&socket);
+  dsuDestroySocket(&client);
   return EXIT_SUCCESS;
 }
